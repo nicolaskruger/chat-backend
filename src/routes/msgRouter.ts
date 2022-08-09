@@ -15,7 +15,7 @@ msgRouter.get("/next", async (req, res) => {
 })
 
 msgRouter.post("/", async (req, res) => {
-    return res.status(200)
+    return res.status(200).json()
 })
 
 export {
