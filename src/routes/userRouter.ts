@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { createUserUseCase } from "../service/user/createUserUseCase";
 
 const userRouter = Router()
 
@@ -8,10 +9,8 @@ userRouter.get('/', async (req, res) => {
     })
 })
 
-userRouter.post('/', async (req, res) => {
-    return res.status(201).json({
-        name: "name"
-    })
+userRouter.post('/', async (req, res, next) => {
+    return await createUserUseCase(req, res, next)
 })
 
 export {

@@ -1,13 +1,17 @@
-import { NextFunction, Request, Response } from "express"
+import { ErrorRequestHandler } from "express"
 
-export const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => {
-    if (error instanceof Error) {
-        return res.status(400).json({
-            msg: error.message
-        })
-    }
+const errorMiddleware: ErrorRequestHandler = (error, req, res, next) => {
+    
+    console.log("midlleware")
+    console.log(error)
 
-    return res.status(500).json({
-        msg: "interna server erro"
+    return res.status(400).json({
+        message: error.message
     })
+    
+    
+}
+
+export {
+    errorMiddleware
 }
