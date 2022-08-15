@@ -1,5 +1,6 @@
+import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
-import {createUserService } from "./createUserService"
+import { loginUserService } from "./loginUserService";
 import { validateUserService } from "./validateUserService";
 
 type UserDto = {
@@ -7,22 +8,25 @@ type UserDto = {
     password: string
 }
 
-const createUserUseCase = async (req:Request, res: Response, next: NextFunction) => {
+const loginUserUseCase = async (req:Request, res: Response, next: NextFunction) => {
+    const user = req.body as UserDto;
+
     try {
-        const user = req.body as UserDto
         validateUserService(user)
         return res.json(
-            await createUserService(user)
+            await loginUserService(user)
         )
     } catch (error) {
+        const err = error as Error
         return next(
             {
                 status: 400,
-                message: "can't create user !!!"
+                message: err.message
             }
         )
     }
-
 }
 
-export {createUserUseCase}
+export {
+    loginUserUseCase
+}

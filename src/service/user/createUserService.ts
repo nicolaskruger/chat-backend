@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import { hash } from "bcrypt"
 import { env } from "process"
+import { hashPassword } from "./hashPassword"
 
 type UserDto = {
     name: string,
@@ -9,13 +10,12 @@ type UserDto = {
 
 const createUserService = async ( user:UserDto ) => {
     const prisma = new PrismaClient();
-    const HASH = env.HASH || '';
     const { password } = user;
-    const hashPassword = await hash(password + HASH, 10)
+    const _hashPassword = await hashPassword(password)
     
     const data: UserDto = {
         name: user.name,
-        password: hashPassword
+        password: _hashPassword
     }
 
     await prisma.user.create({
