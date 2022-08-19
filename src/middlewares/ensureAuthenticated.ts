@@ -36,3 +36,7 @@ const ensureAuthenticated = async (req:Request, res: Response, next: NextFunctio
         })
     }
 }
+
+export {
+    ensureAuthenticated
+}
